@@ -100,6 +100,37 @@ toolchain() {
 	sleep 1
 }
 
+configure() {
+	clear
+	echo "Now, let's configure coreboot !"
+	echo "Before doing your own configuration, please, at least do the following :"
+	echo "-----------------------"
+	echo "Mainboard  --->"
+	echo "	Mainboard vendor  --->"
+	echo "		Apple"
+	echo "	Mainboard model  --->"
+	echo "		MacBook1,1 or MacBook2,1 (choose the right one, should work with both but is only tested on MacBook2,1)"
+	echo "Devices  --->"
+	echo "	[*] Use native graphics initialization"
+	echo "Payload  --->"
+	echo "	Add a payload -->"
+	echo "		SeaBIOS or GRUB (only tested with SeaBIOS)"
+	echo "Chipset  --->"
+	echo "	*** CPU ***"
+	echo "	Include CPU microcode in CBFS  --->" 
+    echo "		Do not include microcode updates"
+	echo "-----------------------"
+	sleep 10
+	echo "Starting menuconfig ..."
+	make menuconfig
+
+	if [ $? != 1 ]; then
+		echo "done!"
+	else
+		error "Failed to configure coreboot !"
+	fi
+}
+
 build() {
 	clear
 	echo "Now, everything is ready, now, let's build the actual rom !"
